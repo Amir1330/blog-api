@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Blog API</h1>
+    <form id="blog-form">
+        <input type="text" id="title" placeholder="Title" required>
+        <textarea id="body" placeholder="Body" required></textarea>
+        <input type="text" id="author" placeholder="Author">
+        <button type="submit">Create Blog Post</button>
+    </form>
+    <div id="blog-list"></div>
+
+    <script>
+        const form = document.getElementById('blog-form');
+        const blogList = document.getElementById('blog-list');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('title').value;
+            const body = document.getElementById('body').value;
+            const author = document.getElementById('author').value;
+
+            const response = await fetch('/api/blogs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, body, author })
+            });
+
+            if (response.ok) {
+                loadBlogs();
+            }
+        });
+
+        async function loadBlogs() {
+            const response = await fetch('/api/blogs');
+            const blogs = await response.json();
+            blogList.innerHTML = '';
+            blogs.forEach(blog => {
+                const blogItem = document.createElement('div');
+                blogItem.className = 'blog-item';
+                blogItem.innerHTML = `
+                    <h2>${blog.title}</h2>
+                    <p>${blog.body}</p>
+                    <p><strong>Author:</strong> ${blog.author}</p>
+                    <p><strong>Created At:</strong> ${new Date(blog.createdAt).toLocaleString()}</p>
+                    <p><strong>Updated At:</strong> ${new Date(blog.updatedAt).toLocaleString()}</p>
+                `;
+                blogList.appendChild(blogItem);
+            });
+        }
+
+        loadBlogs();
+    </script>
+</body>
+</html>
