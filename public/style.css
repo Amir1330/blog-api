@@ -53,3 +53,17 @@ button:hover {
 .blog-item h2 {
     margin-top: 0;
 }
+
+.blog-item button {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.blog-item button:hover {
+    background: #c0392b;
+}

@@ -6,7 +6,7 @@ const path = require('path');
 require('dotenv').config();  // Load environment variables
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3030;
 
 // Middleware
 app.use(bodyParser.json());
@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB connection
 const mongoURI = process.env.MONGODB_URI;
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoURI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
